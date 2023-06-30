@@ -3,6 +3,7 @@ import { CakeModule } from './cake/cake.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { OrderModule } from './order/order.module';
 import { UserModule } from './user/user.module';
+import { StoreModule } from './store/store.module';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
@@ -17,6 +18,7 @@ require('dotenv').config();
     }),
     OrderModule,
     UserModule,
+    StoreModule,
   ],
   controllers: [],
   providers: [],

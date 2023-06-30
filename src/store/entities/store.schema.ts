@@ -2,13 +2,23 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaTypes } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Order } from '../../order/entities/order.schema';
-import { Cake } from '../../cake/entities/cake.schema';
-import { Store } from '../../store/entities/store.schema';
+import { User } from '../../user/entities/user.schema';
 
-export type userDocument = User & Document;
+export type storeDocument = Store & Document;
 
 @Schema({ timestamps: true, versionKey: false })
-export class User {
+export class Store {
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'User', required: true })
+  owner: User;
+
+  @Prop({
+    type: [SchemaTypes.ObjectId],
+    ref: 'User',
+    required: true,
+    default: [],
+  })
+  likeUsers: User[];
+
   @Prop({
     type: [SchemaTypes.ObjectId],
     ref: 'Order',
@@ -16,24 +26,8 @@ export class User {
     default: [],
   })
   orders: Order[];
-
-  @Prop({
-    type: [SchemaTypes.ObjectId],
-    ref: 'Cake',
-    required: true,
-    default: [],
-  })
-  likeCakes: Cake[];
-
-  @Prop({
-    type: [SchemaTypes.ObjectId],
-    ref: 'Store',
-    required: true,
-    default: [],
-  })
-  likeStores: Store[];
 }
 
-const schema = SchemaFactory.createForClass(User);
+const schema = SchemaFactory.createForClass(Store);
 schema.plugin(mongoosePaginate);
-export const userSchema = schema;
+export const storeSchema = schema;
