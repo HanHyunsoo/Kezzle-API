@@ -7,6 +7,7 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { CustomExceptionFilter } from './config/custom-exception.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const express = require('express');
@@ -22,6 +23,16 @@ async function bootstrapServer(): Promise<Server> {
       AppModule,
       new ExpressAdapter(expressApp),
     );
+
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle('Kezzle API')
+      .setDescription('The Kezzle API description')
+      .setVersion('1.0')
+      .build();
+
+    const document = SwaggerModule.createDocument(nestApp, swaggerConfig);
+    SwaggerModule.setup('api-docs', nestApp, document);
+
     nestApp.useGlobalFilters(new CustomExceptionFilter());
     nestApp.use(eventContext());
     await nestApp.init();

@@ -9,6 +9,7 @@ import {
   Query,
   HttpCode,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { CakeService } from './cake.service';
 import { CreateCakeDto } from './dto/create-cake.dto';
@@ -16,8 +17,19 @@ import { UpdateCakeDto } from './dto/update-cake.dto';
 import { pageable } from '../common/type/pageable.type';
 import { PaginateResult } from 'mongoose';
 import { CakeResponseDto } from './dto/cake-response.dto';
+import {
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { PaginationParameters } from 'mongoose-paginate-v2';
+import { Response } from 'express';
+import { ApiPaginatedResponse } from '../common/decorator/api-paginated-response.decorator';
+import { PageableQueryDto } from '../common/dto/pageable-query.dto';
 
 @Controller('cakes')
+@ApiTags('cakes')
 export class CakeController {
   constructor(private readonly cakeService: CakeService) {}
 
@@ -28,14 +40,26 @@ export class CakeController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @ApiPaginatedResponse(CakeResponseDto)
+  @ApiNoContentResponse({ description: '정보 없음.' })
   async findAll(
-    @Query() pageable: pageable,
-  ): Promise<PaginateResult<CakeResponseDto>> {
-    return await this.cakeService.findAll(pageable);
+    @Query() pageable: PageableQueryDto,
+    @Res() response: Response,
+  ): Promise<PaginateResult<CakeResponseDto> | Response> {
+    const cakes = await this.cakeService.findAll(pageable);
+    if (cakes.docs.length === 0) {
+      return response.status(204).send();
+    }
+    return cakes;
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({
+    description: '케이크를 불러옵니다.',
+    type: CakeResponseDto,
+  })
+  @ApiNotFoundResponse({ description: '케이크를 찾을 수 없습니다.' })
   async findOne(@Param('id') id: string): Promise<CakeResponseDto> {
     return await this.cakeService.findOne(id);
   }
