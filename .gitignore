@@ -32,5 +32,5 @@ lerna-debug.log*
 
 .serverless
 .build
-.env
+.env.*
 .tsbuildinfo

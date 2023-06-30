@@ -4,6 +4,8 @@ plugins:
   - serverless-apigw-binary
   - serverless-plugin-typescript
   - serverless-offline
+  - serverless-jetpack
+  - serverless-dotenv-plugin
 
 custom:
   apigwBinary:
