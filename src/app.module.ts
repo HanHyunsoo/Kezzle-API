@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { CakeModule } from './cake/cake.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { OrderModule } from './order/order.module';
+import { UserModule } from './user/user.module';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
@@ -15,6 +16,7 @@ require('dotenv').config();
       dbName: process.env.MONGODB_DBNAME,
     }),
     OrderModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
