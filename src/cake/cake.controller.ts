@@ -33,24 +33,23 @@ import { PageableQueryDto } from '../common/dto/pageable-query.dto';
 export class CakeController {
   constructor(private readonly cakeService: CakeService) {}
 
-  // @Post()
-  // create(@Body() createCakeDto: CreateCakeDto) {
-  //   return this.cakeService.create(createCakeDto);
-  // }
+  @Post()
+  create(@Body() createCakeDto: CreateCakeDto) {
+    return this.cakeService.create(createCakeDto);
+  }
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   @ApiPaginatedResponse(CakeResponseDto)
   @ApiNoContentResponse({ description: '정보 없음.' })
   async findAll(
     @Query() pageable: PageableQueryDto,
     @Res() response: Response,
-  ): Promise<PaginateResult<CakeResponseDto> | Response> {
+  ): Promise<Response> {
     const cakes = await this.cakeService.findAll(pageable);
     if (cakes.docs.length === 0) {
       return response.status(204).send();
     }
-    return cakes;
+    return response.status(200).json(cakes);
   }
 
   @Get(':id')

@@ -19,20 +19,18 @@ export class CakeService {
     return new CakeResponseDto(cake);
   }
 
-  async findAll(pageable: pageable): Promise<PaginateResult<CakeResponseDto>> {
+  async findAll(pageable: pageable) {
     const cakes = await this.cakeModel.paginate(
       {},
       {
         page: pageable.page,
         limit: pageable.size ? pageable.size : 10,
-        sort: { createdAt: -1 },
+        sort: { createdAt: 1 },
+        populate: 'orders',
       },
     );
 
-    return {
-      ...cakes,
-      docs: cakes.docs.map((cake) => new CakeResponseDto(cake)),
-    };
+    return await cakes;
   }
 
   async findOne(id: string): Promise<CakeResponseDto> {
