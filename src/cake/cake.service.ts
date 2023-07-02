@@ -5,8 +5,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PaginateModel, PaginateResult } from 'mongoose';
 import { cakeDocument } from './entities/cake.schema';
 import { CakeResponseDto } from './dto/cake-response.dto';
-import { pageable } from '../common/type/pageable.type';
 import { CakeNotFoundException } from './exceptions/cake-not-found.exception';
+import { PageableQuery } from 'src/common/query/pageable.query';
 
 @Injectable()
 export class CakeService {
@@ -19,7 +19,9 @@ export class CakeService {
     return new CakeResponseDto(cake);
   }
 
-  async findAll(pageable: pageable) {
+  async findAll(
+    pageable: PageableQuery,
+  ): Promise<PaginateResult<CakeResponseDto>> {
     const cakes = await this.cakeModel.paginate(
       {},
       {
@@ -30,7 +32,10 @@ export class CakeService {
       },
     );
 
-    return await cakes;
+    return {
+      ...cakes,
+      docs: cakes.docs.map((cake) => new CakeResponseDto(cake)),
+    };
   }
 
   async findOne(id: string): Promise<CakeResponseDto> {

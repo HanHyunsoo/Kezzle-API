@@ -13,9 +13,6 @@ import {
 } from '@nestjs/common';
 import { CakeService } from './cake.service';
 import { CreateCakeDto } from './dto/create-cake.dto';
-import { UpdateCakeDto } from './dto/update-cake.dto';
-import { pageable } from '../common/type/pageable.type';
-import { PaginateResult } from 'mongoose';
 import { CakeResponseDto } from './dto/cake-response.dto';
 import {
   ApiNoContentResponse,
@@ -23,10 +20,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { PaginationParameters } from 'mongoose-paginate-v2';
 import { Response } from 'express';
 import { ApiPaginatedResponse } from '../common/decorator/api-paginated-response.decorator';
-import { PageableQueryDto } from '../common/dto/pageable-query.dto';
+import { PageableQuery } from '../common/query/pageable.query';
 
 @Controller('cakes')
 @ApiTags('cakes')
@@ -42,7 +38,7 @@ export class CakeController {
   @ApiPaginatedResponse(CakeResponseDto)
   @ApiNoContentResponse({ description: '정보 없음.' })
   async findAll(
-    @Query() pageable: PageableQueryDto,
+    @Query() pageable: PageableQuery,
     @Res() response: Response,
   ): Promise<Response> {
     const cakes = await this.cakeService.findAll(pageable);
