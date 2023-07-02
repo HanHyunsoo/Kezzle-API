@@ -1,5 +1,5 @@
 import { IsObject, IsString } from 'class-validator';
-import { image } from '../../common/type/image.type';
+import { image } from '../../upload/type/image.type';
 
 export class CreateCakeDto {
   @IsObject()
