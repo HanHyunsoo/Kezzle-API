@@ -24,10 +24,13 @@ async function bootstrapServer(): Promise<Server> {
       new ExpressAdapter(expressApp),
     );
 
+    const stage = process.env.STAGE || 'dev';
+
     const swaggerConfig = new DocumentBuilder()
       .setTitle('Kezzle API')
       .setDescription('The Kezzle API description')
       .setVersion('1.0')
+      .addServer(`/${stage}`)
       .build();
 
     const document = SwaggerModule.createDocument(nestApp, swaggerConfig);
