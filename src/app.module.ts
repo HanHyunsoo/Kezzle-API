@@ -1,14 +1,24 @@
 import { Module } from '@nestjs/common';
-import { DynamooseModule } from 'nestjs-dynamoose';
-import { DynamooseConfigService } from './config/dynamoose-config.service';
-// import { CakeModule } from './cake/cake.module';
+import { CakeModule } from './cake/cake.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { OrderModule } from './order/order.module';
+import { UserModule } from './user/user.module';
+import { StoreModule } from './store/store.module';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
 
 @Module({
   imports: [
-    DynamooseModule.forRootAsync({
-      useClass: DynamooseConfigService,
+    CakeModule,
+    MongooseModule.forRoot(process.env.MONGODB_URI, {
+      user: process.env.MONGODB_USERNAME,
+      pass: process.env.MONGODB_PASSWORD,
+      dbName: process.env.MONGODB_DBNAME,
     }),
-    // CakeModule,
+    OrderModule,
+    UserModule,
+    StoreModule,
   ],
   controllers: [],
   providers: [],

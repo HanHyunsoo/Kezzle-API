@@ -3,8 +3,9 @@ service: kezzle
 plugins:
   - serverless-apigw-binary
   - serverless-plugin-typescript
-  - serverless-plugin-optimize
   - serverless-offline
+  - serverless-jetpack
+  - serverless-dotenv-plugin
 
 custom:
   apigwBinary:
