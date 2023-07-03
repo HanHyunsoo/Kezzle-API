@@ -56,31 +56,32 @@ export class CakeService {
       tags: updateCakeDto.tags,
     };
 
-    if (updateCakeDto.image !== undefined) {
-      const cake = await this.cakeModel.findOne({ _id: id });
-      this.uploadService.remove(cake.image.s3Url);
-      params['image'] = updateCakeDto.image;
+    try {
+      if (updateCakeDto.image !== undefined) {
+        const cake = await this.cakeModel.findOne({ _id: id });
+        await this.uploadService.remove(cake.image.s3Url);
+        params['image'] = updateCakeDto.image;
+      }
+
+      const cake = await this.cakeModel
+        .updateOne(
+          { _id: id },
+          {
+            $set: params,
+          },
+        )
+        .then(async () => {
+          return await this.cakeModel.findOne({ _id: id });
+        });
+
+      return new CakeResponseDto(cake);
+    } catch (e) {
+      throw new CakeNotFoundException(id);
     }
-
-    const cake = await this.cakeModel
-      .updateOne(
-        { _id: id },
-        {
-          $set: params,
-        },
-      )
-      .catch(() => {
-        throw new CakeNotFoundException(id);
-      })
-      .then(() => {
-        return this.cakeModel.findOne({ _id: id });
-      });
-
-    return new CakeResponseDto(cake);
   }
 
   async remove(id: string): Promise<void> {
-    this.cakeModel.deleteOne({ _id: id }).catch(() => {
+    await this.cakeModel.deleteOne({ _id: id }).catch(() => {
       throw new CakeNotFoundException(id);
     });
   }
