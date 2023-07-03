@@ -6,12 +6,14 @@ import { PaginateModel, PaginateResult } from 'mongoose';
 import { cakeDocument } from './entities/cake.schema';
 import { CakeResponseDto } from './dto/cake-response.dto';
 import { CakeNotFoundException } from './exceptions/cake-not-found.exception';
-import { PageableQuery } from 'src/common/query/pageable.query';
+import { PageableQuery } from '../common/query/pageable.query';
+import { UploadService } from '../upload/upload.service';
 
 @Injectable()
 export class CakeService {
   constructor(
     @InjectModel('Cake') private cakeModel: PaginateModel<cakeDocument>,
+    private readonly uploadService: UploadService,
   ) {}
 
   async create(createCakeDto: CreateCakeDto): Promise<CakeResponseDto> {
@@ -50,15 +52,28 @@ export class CakeService {
     id: string,
     updateCakeDto: UpdateCakeDto,
   ): Promise<CakeResponseDto> {
+    const params = {
+      tags: updateCakeDto.tags,
+    };
+
+    if (updateCakeDto.image !== undefined) {
+      const cake = await this.cakeModel.findOne({ _id: id });
+      this.uploadService.remove(cake.image.s3Url);
+      params['image'] = updateCakeDto.image;
+    }
+
     const cake = await this.cakeModel
       .updateOne(
         { _id: id },
         {
-          $set: updateCakeDto,
+          $set: params,
         },
       )
       .catch(() => {
         throw new CakeNotFoundException(id);
+      })
+      .then(() => {
+        return this.cakeModel.findOne({ _id: id });
       });
 
     return new CakeResponseDto(cake);

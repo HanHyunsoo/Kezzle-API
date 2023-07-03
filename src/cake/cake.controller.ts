@@ -10,11 +10,16 @@ import {
   HttpCode,
   HttpStatus,
   Res,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { CakeService } from './cake.service';
 import { CreateCakeDto } from './dto/create-cake.dto';
 import { CakeResponseDto } from './dto/cake-response.dto';
 import {
+  ApiBadRequestResponse,
+  ApiConsumes,
+  ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -23,6 +28,9 @@ import {
 import { Response } from 'express';
 import { ApiPaginatedResponse } from '../common/decorator/api-paginated-response.decorator';
 import { PageableQuery } from '../common/query/pageable.query';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { parseFilePipe } from '../upload/util/image.filter';
+import { UpdateCakeDto } from './dto/update-cake.dto';
 
 @Controller('cakes')
 @ApiTags('cakes')
@@ -30,6 +38,13 @@ export class CakeController {
   constructor(private readonly cakeService: CakeService) {}
 
   @Post()
+  @ApiCreatedResponse({
+    description: '케이크를 생성합니다.',
+    type: CakeResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: 'request body의 조건이 잘못됨.',
+  })
   create(@Body() createCakeDto: CreateCakeDto) {
     return this.cakeService.create(createCakeDto);
   }
@@ -59,10 +74,10 @@ export class CakeController {
     return await this.cakeService.findOne(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateCakeDto: UpdateCakeDto) {
-  //   return this.cakeService.update(id, updateCakeDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateCakeDto: UpdateCakeDto) {
+    return this.cakeService.update(id, updateCakeDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

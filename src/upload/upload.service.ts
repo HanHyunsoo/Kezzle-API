@@ -17,7 +17,7 @@ export class UploadService {
 
     const params = {
       Bucket: process.env.A_BUCKET_NAME,
-      Key: `${parentDirectory}/${convertedName}`,
+      Key: `kezzle/${parentDirectory}/${convertedName}`,
       Body: file.buffer,
       ACL: 'public-read',
     };
