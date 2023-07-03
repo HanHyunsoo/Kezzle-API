@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { CustomExceptionFilter } from './config/custom-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as AWS from 'aws-sdk';
 
@@ -25,7 +24,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api-docs', app, document);
 
-  app.useGlobalFilters(new CustomExceptionFilter());
   await app.listen(3000);
 }
 bootstrap();

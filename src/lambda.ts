@@ -6,7 +6,6 @@ import { eventContext } from 'aws-serverless-express/middleware';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
-import { CustomExceptionFilter } from './config/custom-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as AWS from 'aws-sdk';
 
@@ -43,7 +42,6 @@ async function bootstrapServer(): Promise<Server> {
     const document = SwaggerModule.createDocument(nestApp, swaggerConfig);
     SwaggerModule.setup('api-docs', nestApp, document);
 
-    nestApp.useGlobalFilters(new CustomExceptionFilter());
     nestApp.use(eventContext());
     await nestApp.init();
     cachedServer = createServer(expressApp, undefined, binaryMimeTypes);
