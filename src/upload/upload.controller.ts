@@ -5,10 +5,13 @@ import {
   Delete,
   UploadedFile,
   UseInterceptors,
+  Body,
 } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { parseFilePipe } from './util/image.filter';
+import { ImageResponseDto } from './dto/image-response.dto';
+import { DeleteImageDto } from './dto/delete-image.dto';
 
 @Controller('upload')
 export class UploadController {
@@ -16,15 +19,15 @@ export class UploadController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  create(
+  async create(
     @UploadedFile(parseFilePipe)
     file: Express.Multer.File,
-  ) {
-    return this.uploadService.create(file);
+  ): Promise<ImageResponseDto> {
+    return this.uploadService.create('test', file);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.uploadService.remove(id);
+  @Delete()
+  remove(@Body() deleteImageDto: DeleteImageDto): Promise<void> {
+    return this.uploadService.remove(deleteImageDto.s3Url);
   }
 }
