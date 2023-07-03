@@ -14,9 +14,9 @@ import * as AWS from 'aws-sdk';
 const express = require('express');
 
 AWS.config.update({
-  region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.A_REGION,
+  accessKeyId: process.env.A_ACCESS_KEY_ID,
+  secretAccessKey: process.env.A_SECRET_ACCESS_KEY,
 });
 
 const binaryMimeTypes: string[] = [];
@@ -55,9 +55,9 @@ export const handler: Handler = async (event: any, context: Context) => {
   cachedServer = await bootstrapServer();
 
   if (
+    process.env.NODE_ENV === 'development' &&
     event.body &&
-    event.headers['Content-Type'].includes('multipart/form-data') &&
-    process.env.NODE_ENV === 'development'
+    event.headers['Content-Type'].includes('multipart/form-data')
   ) {
     event.body = Buffer.from(event.body, 'binary') as unknown as string;
   }

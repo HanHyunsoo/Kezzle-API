@@ -16,7 +16,7 @@ export class UploadService {
     const convertedName = randomUUID() + '.' + extension;
 
     const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: process.env.A_BUCKET_NAME,
       Key: `${parentDirectory}/${convertedName}`,
       Body: file.buffer,
       ACL: 'public-read',
@@ -38,10 +38,10 @@ export class UploadService {
 
   async remove(s3Url: string): Promise<void> {
     const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: process.env.A_BUCKET_NAME,
       Key: s3Url
         .split(
-          `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/`,
+          `https://${process.env.A_BUCKET_NAME}.s3.${process.env.A_REGION}.amazonaws.com/`,
         )
         .pop(),
     };

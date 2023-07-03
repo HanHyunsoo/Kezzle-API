@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Post,
-  Param,
   Delete,
   UploadedFile,
   UseInterceptors,
@@ -14,7 +14,6 @@ import { ImageResponseDto } from './dto/image-response.dto';
 import { DeleteImageDto } from './dto/delete-image.dto';
 import {
   ApiBadRequestResponse,
-  ApiBody,
   ApiConsumes,
   ApiCreatedResponse,
   ApiOkResponse,

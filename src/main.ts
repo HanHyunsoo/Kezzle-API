@@ -8,9 +8,9 @@ import * as AWS from 'aws-sdk';
 require('dotenv').config();
 
 AWS.config.update({
-  region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.A_REGION,
+  accessKeyId: process.env.A_ACCESS_KEY_ID,
+  secretAccessKey: process.env.A_SECRET_ACCESS_KEY,
 });
 
 async function bootstrap() {
