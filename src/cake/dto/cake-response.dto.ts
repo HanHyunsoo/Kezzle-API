@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ImageResponseDto } from '../../common/dto/image-response.dto';
+import { ImageResponseDto } from '../../upload/dto/image-response.dto';
 
 export class CakeResponseDto {
   @ApiProperty({ description: 'id' })
