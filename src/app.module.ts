@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { OrderModule } from './order/order.module';
 import { UserModule } from './user/user.module';
 import { StoreModule } from './store/store.module';
+import { UploadModule } from './upload/upload.module';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
@@ -19,6 +20,7 @@ require('dotenv').config();
     OrderModule,
     UserModule,
     StoreModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],

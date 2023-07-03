@@ -8,9 +8,16 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { CustomExceptionFilter } from './config/custom-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as AWS from 'aws-sdk';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const express = require('express');
+
+AWS.config.update({
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 const binaryMimeTypes: string[] = [];
 
