@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateImageDto } from './dto/create-image.dto';
 
+// TODO: 인증/인가 권한 추가하기
 @Controller('uploads')
 @ApiTags('uploads')
 export class UploadController {
@@ -32,7 +33,10 @@ export class UploadController {
   @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: '이미지 업로드',
-    description: '이미지를 업로드합니다. 원래 이름 대신 uuid로 저장됩니다.',
+    description:
+      '이미지를 업로드합니다. 원래 이름 대신 uuid로 저장됩니다.' +
+      '\n\n' +
+      '권한이 필요하지 않습니다.',
   })
   @ApiCreatedResponse({
     description: '이미지 업로드 성공',
@@ -53,7 +57,10 @@ export class UploadController {
   @Delete()
   @ApiOperation({
     summary: '이미지 삭제',
-    description: 'S3 객체 URL을 이용해서 이미지를 삭제합니다.',
+    description:
+      'S3 객체 URL을 이용해서 이미지를 삭제합니다.' +
+      '\n\n' +
+      'Admin 권한이 필요합니다.',
   })
   @ApiOkResponse({
     description: '이미지 삭제 성공',
