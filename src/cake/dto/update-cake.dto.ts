@@ -1,12 +1,14 @@
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { image } from '../../upload/type/image.type';
+import { ImageResponseDto } from '../../upload/dto/image-response.dto';
+import { Type } from 'class-transformer';
 
 export class UpdateCakeDto {
   @IsOptional()
-  @IsObject()
+  @Type(() => ImageResponseDto)
+  @ValidateNested()
   @ApiProperty({
-    description: '케이크에 관련된 이미지',
+    type: ImageResponseDto,
     example: {
       originalName: '1.png',
       convertedName: '41f1904d-cb2e-45f3-b5ee-072bc49cba11.png',
@@ -15,7 +17,7 @@ export class UpdateCakeDto {
     },
     required: false,
   })
-  readonly image?: image;
+  readonly image?: ImageResponseDto;
 
   @IsString({ each: true })
   @ApiProperty({

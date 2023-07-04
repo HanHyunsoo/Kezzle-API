@@ -28,7 +28,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       errorParams = {
         statusCode: exception.getStatus(),
-        message: exception.message,
+        message: exception['response']['message'] || exception.message,
       };
     }
 

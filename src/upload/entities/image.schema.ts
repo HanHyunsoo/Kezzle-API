@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Schema()
 export class Image {
   @Prop({ type: String, required: true })
-  originalname: string;
+  originalName: string;
 
   @Prop({ type: String, required: true })
   convertedName: string;
