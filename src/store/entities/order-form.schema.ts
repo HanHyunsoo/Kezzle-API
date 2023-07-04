@@ -3,7 +3,11 @@ import { Selection, SelectionSchema } from './selection.schema';
 
 @Schema()
 export class OrderForm {
-  @Prop({ type: String, enum: [], required: true })
+  @Prop({
+    type: String,
+    enum: ['RADIO', 'CHECKBOX', 'TEXTFILED'],
+    required: true,
+  })
   type: string;
 
   @Prop({ type: String, required: true })

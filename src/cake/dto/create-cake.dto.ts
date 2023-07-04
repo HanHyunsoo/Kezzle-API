@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsObject, IsOptional, IsString } from 'class-validator';
-import { image } from 'src/upload/type/image.type';
+import { image } from '../../upload/type/image.type';
 
 export class CreateCakeDto {
   @IsOptional()
