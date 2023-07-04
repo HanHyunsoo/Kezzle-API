@@ -15,28 +15,28 @@ export class Store {
   name: string;
 
   @Prop({ type: String })
-  listViewDescription: string;
+  listViewDescription?: string;
 
   @Prop({ type: String })
-  detailDescription: string;
+  detailDescription?: string;
 
   @Prop({ type: String })
-  tabViewDescription: string;
+  tabViewDescription?: string;
 
   @Prop({ type: String })
-  instagramUrl: string;
+  instagramUrl?: string;
 
   @Prop({ type: String })
-  kakaoUrl: string;
+  kakaoUrl?: string;
 
   @Prop({ type: ImageSchema })
-  logo: Image;
+  logo?: Image;
 
   @Prop({ type: [ImageSchema], required: true, default: [] })
   detailImages: Image[];
 
   @Prop({ type: String })
-  phoneNumber: string;
+  phoneNumber?: string;
 
   @Prop({ type: String, required: true })
   address: string;

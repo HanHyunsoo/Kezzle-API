@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class Location {
-  @Prop({ type: String, enum: ['Point'], required: true })
+  @Prop({ type: String, enum: ['Point'], required: true, default: 'Point' })
   type: string;
 
   @Prop({ type: [Number], required: true })
