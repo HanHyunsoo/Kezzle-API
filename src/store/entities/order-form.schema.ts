@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Selection, SelectionSchema } from './selection.schema';
 import { OrderFormType } from '../enum/order-form.enum';
 
-@Schema()
+@Schema({ _id: false })
 export class OrderForm {
   @Prop({
     type: String,
