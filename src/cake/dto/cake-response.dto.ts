@@ -14,6 +14,24 @@ export class CakeResponseDto {
   @ApiProperty({ description: 'tags', example: ['크리스마스', '딸기'] })
   readonly tags: string[];
 
+  // TODO: 로그인한 유저가 좋아요 눌렀는지에 대해 추가해야함
+  // @ApiProperty({
+  //   type: Boolean,
+  //   description: '로그인한 유저가 좋아요 눌렀는지',
+  //   example: true,
+  //   required: false,
+  // })
+  // readonly userLiked?: boolean;
+
+  // TODO: 유저 좋아요 개수 추가해야함
+  // @ApiProperty({
+  // 	type: Number,
+  // 	description: '유저 좋아요 개수',
+  // 	example: 10,
+  // 	required: false,
+  // })
+  // readonly userLikeCount?: number;
+
   @ApiProperty({ description: 'createdAt', example: '2021-06-01T00:00:00Z' })
   readonly createdAt: Date;
 
